@@ -14,10 +14,20 @@ public class TaskDbHelper extends SQLiteOpenHelper {
         super(context, TaskContract.DB_NAME, null,TaskContract.DB_VERSION);
     }
 
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         /* Creates a String for making a table called tasks, containing entry ID as primary key
         *  and the title of each task */
+
+        /* In pure SQL
+
+         CREATE TABLE Tasks (
+         _id INTEGER PRIMARY KEY AUTOINCREMENT,
+         title TEXT NOT NULL
+         );
+
+        */
         String createTable = "CREATE TABLE" + TaskContract.TaskEntry.TABLE + " ( " +
                 TaskContract.TaskEntry._ID + "INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 TaskContract.TaskEntry.COL_TASK_TITLE + " TEXT IS NOT NULL);";
@@ -28,6 +38,10 @@ public class TaskDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        /*
+        Drops the table tasks if it already exists.
+        creates a new table.
+        */
         db.execSQL(" DROP TABLE IF EXISTS " + TaskContract.TaskEntry.TABLE);
         onCreate(db);
     }
